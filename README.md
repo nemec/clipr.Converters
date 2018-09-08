@@ -91,12 +91,13 @@ it looks up the default `TypeConverter` for the field type.
 ### IPAddressConverter
 
 This class uses the `System.Net.IPAddress.TryParse` method to turn a string
-into an IPAddress instance. Both IPv4 and IPv6 addresses are supported.
+into a `System.Net.IPAddress` instance. Both IPv4 and IPv6 addresses are supported.
 
 ### IPEndPointConverter
 
 This class is similar to the `IPAddressConverter` class, except it also
-supports a port. For IPv4 addresses, the format is an IP and port separated
+supports a port. Inputs are converted to the `System.Net.IPEndPoint` class.
+For IPv4 addresses, the format is an IP and port separated
 by a colon (e.g. `192.168.1.1:8000`). Since IPv6 addresses contains colons
 themselves, you must surround the IPv6 address in brackets and append a colon
 plus the port at the end (e.g. `[1fbf:0:a88:85a3::ac1f]:8000`).
@@ -130,7 +131,8 @@ class Program
 ### IPHostConverter
 
 The `IPHostConverter` is identical to the `IPEndPointConverter` class except it
-also supports looking up a domain name in DNS instead of an IP Address. The formats
+also supports looking up a domain name in DNS instead of an IP Address. Inputs
+are converted to the `System.Net.IPEndPoint` class. The formats
 include `192.168.1.1:8000` and `example.com:455`. Like the `IPEndPointConverter`,
 create a derived class if you wish to set a default port. When a domain name is
 given as the input and that domain resolves to multiple IP addresses, this converter
@@ -141,21 +143,23 @@ only returns the first address in the list, which is ordered by the OS.
 This `IPHostConverter` derived class is identical to its base class except when a
 domain is provided as input, it first sorts the resulting IP addresses to put
 IPv4 addresses first. If there is no IPv4 address for the domain, the converter
-will continue to return an IPv6 address.
+will continue to return an IPv6 address. Inputs are converted to the
+`System.Net.IPEndPoint` class. 
 
 ### IPHostConverterPreferIPv6
 
 This `IPHostConverter` derived class is identical to its base class except when a
 domain is provided as input, it first sorts the resulting IP addresses to put
 IPv6 addresses first. If there is no IPv6 address for the domain, the converter
-will continue to return an IPv4 address.
+will continue to return an IPv4 address. Inputs are converted to the
+`System.Net.IPEndPoint` class. 
 
 ### RegexConverter
 
 This `RegexConverter` turns a string into a regular expression object, with default settings.
 If a different set of `RegexOptions` must be used, create a derived class of the `RegexConverter`
 and in the derived class' default constructor, call the base contstructor with a single `RegexOptions`
-parameter.
+parameter. Inputs are converted to the `System.Text.RegularExpressions.Regex` class.
 
 ```csharp
 class RegexConverterWithCaseInsensitivity : RegexConverter
@@ -184,7 +188,7 @@ class Program
 
 ### TimeSpanConverter
 
-The `TimeSpanConverter` turns a string into an instance of the `TimeSpan` class.
+The `TimeSpanConverter` turns a string into an instance of the `System.TimeSpan` class.
 It supports any conversion format allowed by `TimeSpan.TryParse` as well as the
 following custom formats:
 
