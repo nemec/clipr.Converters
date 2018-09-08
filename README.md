@@ -150,6 +150,38 @@ domain is provided as input, it first sorts the resulting IP addresses to put
 IPv6 addresses first. If there is no IPv6 address for the domain, the converter
 will continue to return an IPv4 address.
 
+### RegexConverter
+
+This `RegexConverter` turns a string into a regular expression object, with default settings.
+If a different set of `RegexOptions` must be used, create a derived class of the `RegexConverter`
+and in the derived class' default constructor, call the base contstructor with a single `RegexOptions`
+parameter.
+
+```csharp
+class RegexConverterWithCaseInsensitivity : RegexConverter
+{
+    public RegexConverterWithCaseInsensitivity()
+        : base(RegexOptions.IgnoreCase)
+    {
+    }
+}
+
+class Program
+{
+	public static void Main(string[] args)
+	{
+        var converter = new RegexConverter();
+        var rx = (Regex)converter.ConvertFromInvariantString("th.s");
+        var match = rx.Match("send this home");
+        Console.WriteLine("Matched regex case sensitive: {0}", match.Value);
+        match = rx.Match("send thus home");
+        Console.WriteLine("Matched regex case sensitive: {0}", match.Value);
+        match = rx.Match("SEND THIS HOME");
+        Console.WriteLine("Matched regex case sensitive: {0}", match.Value);
+	}
+}
+```
+
 ### TimeSpanConverter
 
 The `TimeSpanConverter` turns a string into an instance of the `TimeSpan` class.

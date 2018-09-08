@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace clipr.Converters.Sample
 {
@@ -44,11 +45,45 @@ namespace clipr.Converters.Sample
             Console.WriteLine("Default port: {0}", addr.Port);
         }
 
+        public static void ConvertWithRegex()
+        {
+            var converter = new RegexConverter();
+            var rx = (Regex)converter.ConvertFromInvariantString("th.s");
+            var match = rx.Match("send this home");
+            Console.WriteLine("Matched regex case sensitive: {0}", match.Value);
+            match = rx.Match("send thus home");
+            Console.WriteLine("Matched regex case sensitive: {0}", match.Value);
+            match = rx.Match("SEND THIS HOME");
+            Console.WriteLine("Matched regex case sensitive: {0}", match.Value);
+        }
+
+        class RegexConverterWithCaseInsensitivity : RegexConverter
+        {
+            public RegexConverterWithCaseInsensitivity()
+                : base(RegexOptions.IgnoreCase)
+            {
+            }
+        }
+
+        public static void ConvertWithCaseInsensitiveRegex()
+        {
+            var converter = new RegexConverterWithCaseInsensitivity();
+            var rx = (Regex)converter.ConvertFromInvariantString("th.s");
+            var match = rx.Match("send this home");
+            Console.WriteLine("Matched regex case insensitive: {0}", match.Value);
+            match = rx.Match("send thus home");
+            Console.WriteLine("Matched regex case insensitive: {0}", match.Value);
+            match = rx.Match("SEND THIS HOME");
+            Console.WriteLine("Matched regex case insensitive: {0}", match.Value);
+        }
+
         static void Main(string[] args)
         {
             ManualConvert();
             ConvertWithConverterFinder();
             ConvertWithDefaultPort();
+            ConvertWithRegex();
+            ConvertWithCaseInsensitiveRegex();
         }
     }
 }
