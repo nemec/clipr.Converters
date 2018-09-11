@@ -88,6 +88,16 @@ it looks up the default `TypeConverter` for the field type.
 
 ## Converters
 
+### DirectoryInfoConverter
+
+This class turns a string into a `System.IO.DirectoryInfo` object. It does not
+perform any validation except by checking whether it contains invalid path characters.
+
+### FileInfoConverter
+
+This class turns a string into a `System.IO.FileInfo` object. It does not
+perform any validation except by checking whether it contains invalid path characters.
+
 ### IPAddressConverter
 
 This class uses the `System.Net.IPAddress.TryParse` method to turn a string

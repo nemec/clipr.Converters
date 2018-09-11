@@ -16,4 +16,10 @@
     <ProjectReference Include="..\clipr.Converters\clipr.Converters.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="folder\sample.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
