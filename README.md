@@ -4,7 +4,22 @@ An assortment of TypeConverters for built-in types that are not provided by
 default in the .NET Framework. Each of these converters supports conversion
 from a string to the appropriate type.
 
-## Usage
+## How to use with clipr
+
+Using these converters with clipr is very straightforward. Simply attach
+the converter type to the appropriate class property in your options class,
+like in the following code. clipr will automatically pick up the converter
+when it searches for a way to convert the input.
+
+```csharp
+public class Options
+{
+	[TypeConverter(typeof(TimeSpanConverter))]
+	[NamedArgument('d', "duration")]
+	public TimeSpan Duration { get; set; }
+}
+
+## General Usage
 
 Typically, code that supports TypeConverters uses the method
 `TypeDescriptor.GetConverter` which finds a `TypeConverter` that
